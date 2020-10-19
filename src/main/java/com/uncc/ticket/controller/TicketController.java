@@ -1,6 +1,7 @@
 package com.uncc.ticket.controller;
 
 import com.uncc.ticket.model.UsersEntity;
+import com.uncc.ticket.repository.TicketRepository;
 import org.springframework.validation.BindingResult;
 import com.uncc.ticket.model.TicketEntity;
 import com.uncc.ticket.service.TicketService;
@@ -18,7 +19,6 @@ import java.security.Principal;
 public class TicketController {
 
     private TicketService ticketService;
-
     private final UsersService usersService;
 
     @Autowired
@@ -37,11 +37,13 @@ public class TicketController {
     @RequestMapping(value = "/tickets/storeTickets", method = RequestMethod.GET)
     public String showStoreTicket(Model model) {
         model.addAttribute("ticket", new TicketEntity());
+        System.out.println("Called");
         return "tickets/storeTicket";
     }
 
     @RequestMapping(value = "/tickets/storeTickets", method = RequestMethod.POST)
     public String storeStoreTicket(Model model,@ModelAttribute(name = "ticket") @Valid TicketEntity ticket, BindingResult bindingResult,Principal principal) {
+        System.out.println("Called 2");
         if (bindingResult.hasErrors()) {
             return "tickets/storeTicket";
         };
@@ -52,13 +54,15 @@ public class TicketController {
 
     @RequestMapping(value = "/tickets/edit/{id}", method = RequestMethod.GET)
     public String editTicket(Model model,@PathVariable("id") Long id) {
-        // Code here
-        return "redirect:/"; //Remove this line
+        model.addAttribute("ticket", ticketService.findById(id));
+        return "tickets/storeTicket";
     }
 
     @RequestMapping(value = "/tickets/delete/{id}", method = RequestMethod.GET)
     public String deleteTicket(@PathVariable("id") Long id) {
-        // Code here
+        ticketService.deleteById(id);
+
+
         return "redirect:/";
     }
 

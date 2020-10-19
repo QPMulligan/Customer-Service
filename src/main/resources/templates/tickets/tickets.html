@@ -46,7 +46,9 @@
             <td th:text="${ticket.getTitle()}"></td>
             <td th:text="${ticket.getMessage()}"></td>
             <td>
+
                 <a class="mb-2 btn btn-success" th:href="@{/tickets/edit/{id} (id=${ticket.getId()})}" style="width: 80px">Edit</a>
+
                 <a class="mb-2 btn btn-danger" href="#" data-toggle="modal" th:data-target="'#delete'+${ticket.getId()}" style="width: 80px">Delete</a>
 
                 <!-- Modal -->
